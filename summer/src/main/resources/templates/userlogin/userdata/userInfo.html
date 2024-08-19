@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>내 정보 보기</title>
+</head>
+<body>
+<h1>내 정보</h1>
+<p><strong>아이디:</strong> <span th:text="${user.userId}"></span></p>
+<p><strong>닉네임:</strong> <span th:text="${user.username}"></span></p>
+<p><strong>비밀번호:</strong> <span th:text="${user.password1}"></span></p>
+<p><strong>이메일:</strong> <span th:text="${user.email}"></span></p>
+
+<div>
+    <button type="button" id="changeUsername">닉네임 변경</button>
+</div>
+<div>
+    <button type="button" id="changePassword">비밀번호 변경</button>
+</div>
+<script>
+    document.getElementById('changeUsername').addEventListener('click', function() {
+        window.location.href = '/userlogin/changeInfo/changeUsername';
+    });
+
+    document.getElementById('changePassword').addEventListener('click', function() {
+        window.location.href = '/userlogin/changeInfo/changePassword';
+    });
+</script>
+</body>
+</html>

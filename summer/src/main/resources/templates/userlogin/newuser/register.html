@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>회원가입</title>
+</head>
+<style>
+    .fieldError {
+        border-color: #bd2130;
+    }
+</style>
+<body>
+<h2>회원가입</h2>
+<form action="#" th:action="@{/register}" th:object="${userForm}" method="post">
+    <div>
+        <label>아이디:</label>
+        <input type="text" th:field="*{userId}" placeholder="아이디를 입력하세요"
+               th:classappend="${#fields.hasErrors('userId')} ? 'fieldError' : ''"/>
+        <div th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}">아이디 오류</div>
+    </div>
+    <div>
+        <label>닉네임:</label>
+        <input type="text" th:field="*{username}" placeholder="닉네임을 입력하세요"
+               th:classappend="${#fields.hasErrors('username')} ? 'fieldError' : ''"/>
+        <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}">닉네임 오류</div>
+    </div>
+    <div>
+        <label>비밀번호:</label>
+        <input type="password" th:field="*{password1}" placeholder="비밀번호를 입력하세요"
+               th:classappend="${#fields.hasErrors('password1')} ? 'fieldError' : ''"/>
+        <div th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}">비밀번호 오류</div>
+    </div>
+    <div>
+        <label>비밀번호 확인:</label>
+        <input type="password" th:field="*{password2}" placeholder="확인을 위해 다시 한번 입력하세요"
+               th:classappend="${#fields.hasErrors('password2')} ? 'fieldError' : ''"/>
+        <div th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}">비밀번호 확인 오류</div>
+    </div>
+    <div>
+        <label>이메일:</label>
+        <input type="email" id="email" th:field="*{email}" placeholder="이메일을 입력하세요"
+               th:classappend="${#fields.hasErrors('email')} ? 'fieldError' : ''"/>
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">이메일 오류</div>
+    </div>
+    <div>
+        <button type="button" id="sendMailCode">이메일 인증 코드 보내기</button>
+    </div>
+    <div>
+        <label>이메일 인증 코드:</label>
+        <input type="password" id="emailcode" th:field="*{emailcode}" placeholder="인증 코드를 입력하세요"/>
+    </div>
+    <div>
+        <button type="button" id="checkMailCode" onclick="checkEmailCode()">이메일 인증 코드 확인</button>
+    </div>
+    <div>
+        <a href="/home">
+        <button type="submit">등록</button>
+        </a>
+    </div>
+</form>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    document.getElementById('sendMailCode').addEventListener('click', function() {
+        var email = document.getElementById('email').value;
+        fetch('/userlogin/newuser/sendMail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(email)
+        })
+        .then(response => {
+            if(response.ok) {
+                alert('인증 코드가 이메일로 전송되었습니다.');
+            } else {
+                alert('인증 코드 전송에 실패했습니다.');
+            }
+        });
+    });
+    /*]]>*/
+
+    async function checkEmailCode() {
+            const emailcode = document.getElementById("emailcode").value;
+
+            if (!emailcode) {
+                alert("인증 코드를 입력하세요");
+                return;
+            }
+
+            try {
+                const response = await fetch('/userlogin/newuser/checkMail', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(emailcode)
+                });
+
+                const result = await response.text();
+
+                if (response.ok) {
+                    alert("인증에 성공했습니다 !!!");
+                } else {
+                    alert("인증에 실패했습니다");
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert("서버 오류가 발생했습니다. 나중에 다시 시도하세요.");
+            }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>홈 페이지</title>
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+<h1>홈 페이지</h1>
+<p th:text="${message}">NewJeanSe</p>
+
+<div th:if="${user.username != null}">
+    <p>환영합니다, <span th:text="${user.username}"></span>님!</p>
+</div>
+<div>
+    <button type="button" id="userInfo">내 정보 보기</button>
+</div>
+<div>
+    <button type="button" id="newdata">데이터 저장하기</button>
+</div>
+<div>
+    <button type="button" id="mydata">데이터 보기</button>
+</div>
+<div>
+    <button type="button" id="logout">로그아웃</button>
+</div>
+</body>
+<script>
+    /*<![CDATA[*/
+    document.getElementById('logout').addEventListener('click', function() {
+        fetch('/userlogin/logout', {
+            method: 'POST'
+        })
+        .then(response => {
+            if(response.ok) {
+                alert('로그아웃에 성공했습니다.');
+                window.location.href = '/';
+            } else {
+                alert('로그아웃에 실패했습니다.');
+            }
+        });
+    });
+
+    document.getElementById('userInfo').addEventListener('click', function() {
+        window.location.href = '/userlogin/userdata/userInfo';
+    });
+
+    document.getElementById('newdata').addEventListener('click', function() {
+        window.location.href = '/userlogin/userdata/newdata';
+    });
+
+    document.getElementById('mydata').addEventListener('click', function() {
+        window.location.href = '/userlogin/userdata/mydata';
+    });
+    /*]]>*/
+</script>
+
+<!--<script type="text/javascript">-->
+<!--    var naver_id_login = new naver_id_login("M7GscV4gcRMX_RnF3Ab9", "http://localhost:8080/userlogin/naver");-->
+<!--    // 접근 토큰 값 출력-->
+<!--    alert(naver_id_login.oauthParams.access_token);-->
+<!--    // 네이버 사용자 프로필 조회-->
+<!--    naver_id_login.get_naver_userprofile("naverSignInCallback()");-->
+<!--    // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function-->
+<!--    function naverSignInCallback() {-->
+<!--    alert(naver_id_login.getProfileData('email'));-->
+<!--    alert(naver_id_login.getProfileData('nickname'));-->
+<!--  }-->
+<!--</script>-->
+
+</html>

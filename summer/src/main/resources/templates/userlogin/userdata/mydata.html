@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>데이터 목록</title>
+</head>
+<body>
+<h1>데이터 목록</h1>
+<div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>이름</th>
+            <th>column1</th>
+            <th>column2</th>
+            <th>column3</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="data : ${dataList}">
+            <td th:text="${data.username}"></td>
+            <td th:text="${data.column1}"></td>
+            <td th:text="${data.column2}"></td>
+            <td>
+                <img th:src="@{${data.filepath}}" alt="이미지" style="max-width: 100px; max-height: 100px;"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

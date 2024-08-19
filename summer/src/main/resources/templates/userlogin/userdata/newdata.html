@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>새로운 데이터 입력</title>
+</head>
+<body>
+<h1>데이터 입력</h1>
+<form th:action="@{/userlogin/userdata/newdata}" th:object="${userData}" method="post" enctype="multipart/form-data">
+    <div>
+        <label>column1:</label>
+        <input type="text" th:field="*{column1}" placeholder="column1을 입력하세요">
+    </div>
+
+    <div>
+        <label>column2:</label>
+        <input type="text" th:field="*{column2}" placeholder="column2을 입력하세요">
+    </div>
+
+    <div>
+        <label>column3:</label>
+        <input type="file" name="column3" placeholder="사진 파일을 업로드하세요">
+    </div>
+    <div>
+        <button type="submit">등록</button>
+    </div>
+</form>
+</body>
+</html>
